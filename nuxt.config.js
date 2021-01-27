@@ -49,6 +49,8 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
   ** Build configuration
@@ -59,5 +61,31 @@ export default {
     */
     extend (config, ctx) {
     }
-  }
+  },
+  auth: {
+    strategies: {
+      //METHOD LOGIN YANG AKAN KITA GUNAKAN
+      local: {
+        //DIMANA ENDPOINTNYA ADALAH
+        endpoints: {
+          //UNTUK LOGIN PADA BAGIAN URL, KITA MASUKKAN URL LOGIN DARI API YANG SUDAH KITA BUAT
+          //SEDANGKAN PROPERTYNAME ADALAH PROPERTY YANG INGIN KITA AMBIL VALUENYA
+          //DALAM HAL INI, LOGIN MENGHARAPKAN TOKEN, SEDANGKAN PADA API KITA ME-RETURN TOKEN DI DALAM OBJECT DATA
+          login: { url: '/login', method: 'post', propertyName: 'data' },
+          logout: { url: '/logout', method: 'post' },
+          user: { url: '/users/login', method: 'get', propertyName: 'data' }
+        },
+        tokenRequired: true,
+        tokenType: 'Bearer '
+      }
+    }
+  },
+  //SET BASE URL PROJECT API KITA, SEHINGGA SEMUA REQUEST AKAN MENGARAH KESANA
+  axios: {
+    baseURL: 'http://dw-logistik-api.test/'
+  },
+  //MIDDLEWARE UNTUK MENGECEK SUDAH LOGIN ATAU BELUM, KITA SET GLOBAL
+  router: {
+    middleware: ['auth']
+  },
 }
