@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
+
       <h1 class="title">
         art_ekspedisi_admin
       </h1>
